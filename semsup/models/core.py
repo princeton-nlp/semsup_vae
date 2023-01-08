@@ -148,10 +148,17 @@ class SemSupModel(BaseModel):
         raise NotImplementedError
 
     def step(self, batch):
+        
         label_batch = {k: v.squeeze(0) for k, v in batch["label_loader"].items()}
         with torch.set_grad_enabled(self.args.tune_label_model):
             label_rep = self.label_model(
                 **label_batch
             ).pooler_output  # (n_class, d_model)
             label_rep = label_rep.t()  # (d_model, n_class)
+            
+        #print("label_rep size: ", label_rep.size())
+        #print("batch input size: ", batch["input_loader"][0].size())
+        #print("batch target size: ", batch["input_loader"][1].size())
         return self(batch["input_loader"], label_rep)
+
+

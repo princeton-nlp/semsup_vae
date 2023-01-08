@@ -1,5 +1,3 @@
-""" base CIFAR100 datamodule
-"""
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -20,10 +18,12 @@ class AWAHeldoutArgs(SemSupDataArgs):
         data_url (str): url from which to pull AWA data
         eval_train (bool): eval on the train classes
         remove_cifar (bool): remove class overlap with cifar from val_classes
+        gzsl (bool): run generalized zero shot learning
     """
     data_url: str = "http://cvml.ist.ac.at/AwA2/AwA2-data.zip"
     eval_train: bool = False
     remove_cifar: bool = False
+    gzsl: bool = False
 
     # filled in for you in __post_init__()
     dataset_dir: str = None
@@ -35,16 +35,23 @@ class AWAHeldoutArgs(SemSupDataArgs):
         )
         self.train_classes = AWA_TRAIN_CLASSES
         self.val_classes = AWA_VAL_CLASSES
+        
 
         if self.run_test:
             self.val_classes = AWA_TEST_CLASSES
         if self.eval_train:
             self.val_classes = AWA_TRAIN_CLASSES
+            
+        if self.gzsl:
+            self.val_classes = AWA_TRAIN_CLASSES + self.val_classes
+            
+            
         if self.remove_cifar:
             self.val_classes = tuple([
                 animal for animal in self.val_classes if animal not in AWA_CIFAR_CLASSES
             ])
 
+        
 
 class AWAHeldoutDM(SemSupDataModule):
     """Heldout variant on the AWA dataset"""

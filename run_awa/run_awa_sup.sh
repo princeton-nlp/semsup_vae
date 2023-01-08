@@ -2,7 +2,7 @@
 
 SEED=0
 RUN_SCRIPT="../run.py"
-CONFIG_FOLDER="./configs/awa_configs"
+CONFIG_FOLDER="./awa_configs"
 
 commands=(
     "python $RUN_SCRIPT --config $CONFIG_FOLDER/awa_sup.yaml"

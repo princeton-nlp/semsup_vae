@@ -10,7 +10,7 @@ model:
     weight_decay: 0.0
 
 data:
-  num_workers: 8
+  num_workers: 1
   batch_size: 32
   args:
     label_max_len: 256
@@ -18,7 +18,7 @@ data:
     cache_dir: "../data_cache"
 
 logger:
-  project: "contclass"
+  project: "Semsup_VAE"
   group: "awa"
 
 checkpoint:
@@ -30,5 +30,5 @@ checkpoint:
 trainer:
   fast_dev_run: false
   gpus: 1
-  max_epochs: 50
+  max_epochs: 100
   log_every_n_steps: 1000

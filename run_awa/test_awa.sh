@@ -4,6 +4,7 @@ RUN_CMD="python ../run_eval.py --validate --default_config $CONFIG_FOLDER/awa_de
 
 DEVISE="--ModelCls DEVISEVisBaseline --data.args.setup_glove_embeddings true"
 GILE="--ModelCls DEVISEVisBaseline --model.args.use_gile true --data.args.setup_glove_embeddings true"
+VAE="--ModelCls ResNetSemSupVae"
 
 TRAIN="../class_descrs/awa/large_files/awa_deep_samp50_perm25_train.labels"
 TRAIN_NL="../class_descrs/awa/google_awa_manual_train.labels"
@@ -19,6 +20,10 @@ EVAL_BOV="../class_descrs/awa/large_files/awa_deep_samp50_perm25_test_bov.labels
 echo
 echo "TESTING AWA: SETTING 0"
 echo
+
+echo "SemLab VAE"
+$RUN_CMD --config "$CONFIG_FOLDER/awa_scen1.yaml" $VAE --ModelCls --data.args.val_label_json $TRAIN --checkpoints "$CKPT_FOLDER/semlab/"awa*cc*ckpt "$@"
+
 
 echo "Base"
 $RUN_CMD --config "$CONFIG_FOLDER/awa_sup.yaml" --data.args.val_label_json $TRAIN --checkpoints "$CKPT_FOLDER/base/"awa*.ckpt "$@"
@@ -43,6 +48,10 @@ echo
 echo "TESTING AWA: SETTING 1"
 echo
 
+
+echo "SemLab VAE"
+$RUN_CMD --config "$CONFIG_FOLDER/awa_scen1.yaml" $VAE --data.args.val_label_json $EVAL --checkpoints "$CKPT_FOLDER/semlab/"awa*cc*ckpt "$@"
+
 echo "SemLab"
 $RUN_CMD --config "$CONFIG_FOLDER/awa_scen1.yaml" --data.args.val_label_json $EVAL --checkpoints "$CKPT_FOLDER/semlab/"awa*cc*ckpt "$@"
 echo "SemLab Descr1"
@@ -63,6 +72,9 @@ $RUN_CMD --config "$CONFIG_FOLDER/awa_scen1_bov.yaml" $GILE --data.args.val_labe
 echo
 echo "TESTING AWA: SETTING 2"
 echo
+
+echo "SemLab VAE"
+$RUN_CMD --config "$CONFIG_FOLDER/awa_scen2.yaml" $VAE --data.args.val_label_json $TRAIN --checkpoints "$CKPT_FOLDER/semlab/"awa_scen2*ckpt "$@"
 
 echo "SemLab"
 $RUN_CMD --config "$CONFIG_FOLDER/awa_scen2.yaml" --data.args.val_label_json $TRAIN --checkpoints "$CKPT_FOLDER/semlab/"awa_scen2*ckpt "$@"
