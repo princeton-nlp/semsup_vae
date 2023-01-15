@@ -1,7 +1,7 @@
-ModelCls: ResNetSemSup
+ModelCls: ResNetSemSupVAE
 DataCls: AWAHeldoutDM
 
-name: awa_heldout
+name: awa_scen2
 
 trainer:
   max_epochs: 100
@@ -11,6 +11,8 @@ data:
     train_label_json: ../class_descrs/awa/large_files/awa_deep_samp50_perm25_train.labels
     val_label_json: ../class_descrs/awa/large_files/awa_deep_samp50_perm25_train.labels
 
+checkpoint:
+  filename: "awa_vae-{epoch:02d}-{val_acc:.2f}"
 
 ClassifierModelCls: ClassifierModel
 ClassifierDataCls: AWAClassificationDM
@@ -40,7 +42,7 @@ c_checkpoint:
 c_trainer:
   fast_dev_run: false
   gpus: 1
-  max_epochs: 20
+  max_epochs: 3
   log_every_n_steps: 100
 
 

@@ -5,7 +5,7 @@ RUN_SCRIPT="../run_vae.py"
 CONFIG_FOLDER="./awa_configs"
 
 commands=(
-    "python $RUN_SCRIPT --config $CONFIG_FOLDER/awa_vae_scen5_sampling.yaml"
+    "python $RUN_SCRIPT --config $CONFIG_FOLDER/awa_vae_scen3_sampling.yaml"
 )
 ARGS="--train --default_config $CONFIG_FOLDER/awa_default.yaml --seed $SEED --name_suffix s$SEED --ModelCls ResNetSemSupVae"
 

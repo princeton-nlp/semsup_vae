@@ -42,7 +42,7 @@ class LabelDatasetClassification(Dataset):
             label_length = len(label_indices)
             for j in range(label_per_class):
                 choice = label_indices[j % label_length]
-                self.data_Y.append(torch.tensor(i))
+                self.data_Y.append(torch.tensor(label))
                 self.data_X.append([])
                 #if j < 2: 
                     #print("item: ", dataset[choice])
@@ -134,7 +134,6 @@ if __name__ == "__main__":
     if args.name_suffix:
         args.name = args.name + "_" + args.name_suffix
     args.logger.name = args.name if args.name else None
-    args.checkpoint.filename = args.name if args.name else None
 
     args.c_logger.name = args.c_name if args.c_name else None
     args.c_checkpoint.filename = args.c_name if args.c_name else None
@@ -208,22 +207,23 @@ if __name__ == "__main__":
         labs = []
         logvars = []
         i = 0
-        for point, label in data:
-            #point = torch.tensor(point)
-            i += 1
-            print("started ", i, " of the ", len(data), " batches")
-            if tokenized_bool:
-                feat = model(**point).pooler_output
-            else:
-                feat = model(point)
+        with torch.set_grad_enabled(False):
+            for point, label in data:
+                #point = torch.tensor(point)
+                i += 1
+                print("started ", i, " of the ", len(data), " batches")
+                if tokenized_bool:
+                    feat = model(**point).pooler_output
+                else:
+                    feat = model(point)
+                    
+                feat_mu, feat_logvar = vae_encoder(feat)
                 
-            feat_mu, feat_logvar = vae_encoder(feat)
-            
-            
-            reps.append(feat_mu)
-            logvars.append(feat_logvar)
-            labs.extend(label)
-            
+                
+                reps.append(feat_mu)
+                logvars.append(feat_logvar)
+                labs.extend(label)
+                
         return torch.cat(tuple(reps), 0), torch.cat(tuple(logvars), 0),  torch.stack(labs)
     
     

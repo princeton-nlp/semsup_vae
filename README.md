@@ -1,9 +1,4 @@
-# Semantic Supervision: Enabling Generalization over Output Spaces
-
-[**Website**](https://sites.google.com/princeton.edu/semantic-supervision/) |
-[**Paper**](https://arxiv.org/abs/2202.13100)
-
-https://user-images.githubusercontent.com/47610569/155899586-79101f69-d0a6-4ac9-a0ec-5c4652330876.mov
+# Generative Semantic Supervision
 
 ## Setup
 First clone the repository and install dependencies:
@@ -22,13 +17,13 @@ mkdir data_cache
 Experiments were run using `python 3.9.7` and `CUDA toolkit 11.1`.
 
 ## Running
-Scripts and config files to train and evaluate models on AWA2, CIFAR and 20Newsgroups are found in the folders `run_{awa, cifar, ng}`. Training commands are found in the bash scripts `run_{dataset}_{model}.sh` in each folder. Each config file has a `scen{1,2,3}` in the file name to indicate which scenario the config is for (see the paper for details on the scenarios). Run each script inside the respective folder. For example:
+Scripts and config files to train and evaluate models on AWA2 are found in the folders `run_awa`. Training commands are found in the bash scripts `run_awa_{model}.sh` in each folder. Each config file has a `scen{1,2,3}` in the file name to indicate which scenario the config is for (see the paper for details on the scenarios). Run scripts from inside the 'run_awa' folder. For example:
 ```
-cd run_cifar
-bash run_cifar_semsup.sh
+cd run_awa
+bash run_awa_semsup.sh
 ```
 
-Dataset downloading to the `data_cache` directory is automatically handled. Test commands are provided in the `test_{awa, cifar, ng}.sh` scripts. Note that you will need to change the `--checkpoints` argument to point to where the model weights are stored.
+Dataset downloading to the `data_cache` directory is automatically handled. Test commands are provided in the `test_awa.sh` scripts. Note that you will need to change the `--checkpoints` argument to point to where the model weights are stored.
 
 ### RCV1
 Obtaining RCV1 data and running RCV1 code require additional instructions that can be found [here](run_rcv1/RCV1_README.md).
